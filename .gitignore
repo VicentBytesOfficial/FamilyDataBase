@@ -1,0 +1,5 @@
+# Builds files
+*.exe
+# Icons build files
+*.ico
+
