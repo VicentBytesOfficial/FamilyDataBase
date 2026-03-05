@@ -55,10 +55,7 @@ FamilyDataBase/
 ├── Icons/
 │   ├── client.png      # Icon for the client (source)
 │   ├── server.png      # Icon for the server (source)
-│   ├── console.png     # Icon for the console (source)
-│   ├── client.ico      # Icon for Windows client executable
-│   ├── server.ico      # Icon for Windows server executable
-│   └── console.ico     # Icon for Windows console executable
+│   └── console.png     # Icon for the console (source)
 ├── DataClient/         # Files downloaded by the client are saved here (auto-created)
 └── DataServer/         # Server-side file storage (auto-created)
     ├── users.json      # Registered users (auto-created)
