@@ -2,6 +2,13 @@ import socket
 import os
 import json
 import pathlib
+import sys
+
+def get_base_path() -> pathlib.Path:
+    if getattr(sys, 'frozen', False):
+        return pathlib.Path(sys.executable).parent
+    else:
+        return pathlib.Path(__file__).parent.parent
 
 print("|----------Server Output----------|")
 
@@ -9,7 +16,7 @@ HOST = "0.0.0.0"
 PORT = 5000
 BUFFER_SIZE = 4096
 
-BASE_DIR = pathlib.Path(__file__).parent.parent / "DataServer"
+BASE_DIR = get_base_path() / "DataServer"
 USERS_FILE = BASE_DIR / "users.json"
 
 BASE_DIR.mkdir(exist_ok=True)

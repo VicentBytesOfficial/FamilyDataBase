@@ -207,19 +207,19 @@ pip install pyinstaller
 **Build the client:**
 
 ```bash
-pyinstaller --onefile --windowed --icon=Icons/client.png --name="Family Data Base" Client/client.py
+pyinstaller --onefile --windowed --icon=Icons/client.ico --name="Family Data Base" Client/client.py
 ```
 
 **Build the server:**
 
 ```bash
-pyinstaller --onefile --icon=Icons/server.png --name="FDB Server" Server/server.py
+pyinstaller --onefile --icon=Icons/server.ico --name="FDB Server" Server/server.py
 ```
 
 **Build the console:**
 
 ```bash
-pyinstaller --onefile --icon=Icons/console.png --name="FDB Console" Server/console.py
+pyinstaller --onefile --icon=Icons/console.ico --name="FDB Console" Server/console.py
 ```
 
 The output for each will be in the `dist/` folder.
@@ -231,7 +231,8 @@ The output for each will be in the `dist/` folder.
 | `--icon` | Sets the application icon |
 | `--name` | Sets the output executable name |
 
-> **Note:** Build the executable on the same OS you want to run it on. Windows builds `.exe`, macOS builds `.app`.
+> **Note:** Build the executable on the same OS you want to run it on. Windows builds `.exe`, macOS builds `.app`, the same with the icons, transform to `.ico` (windows) or `.icns` (macOS)
+and put them in the same folder.
 
 ---
 

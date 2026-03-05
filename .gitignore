@@ -2,4 +2,6 @@
 *.exe
 # Icons build files
 *.ico
-
+# App Caché
+Client/__pycache__/
+Server/__pycache__/

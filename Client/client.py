@@ -2,9 +2,16 @@ import socket
 import GUI
 import os
 import pathlib
+import sys
+
+def get_base_path() -> pathlib.Path:
+    if getattr(sys, 'frozen', False):
+        return pathlib.Path(sys.executable).parent
+    else:
+        return pathlib.Path(__file__).parent.parent
 
 PORT = 5000
-BASE_DIR = pathlib.Path(__file__).parent.parent  
+BASE_DIR = get_base_path() 
 DATA_CLIENT = BASE_DIR / "DataClient"
 DATA_CLIENT.mkdir(exist_ok=True)
 
