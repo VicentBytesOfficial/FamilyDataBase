@@ -277,15 +277,16 @@ pyinstaller --onefile --icon=Icons/console.ico --name="FDB Console" Server/conso
 The output for each will be in the `dist/` folder. Once built, place all executables in the same folder for them to work correctly:
 
 ```
-YourFolder/
-├── Family Data Base.exe    # Client
-├── FDB Server.exe          # Server
-├── FDB Console.exe         # Admin console
-├── DataClient/             # Auto-created on first client run
-└── DataServer/             # Auto-created on first server run
-    ├── users.json          # Auto-created
-    └── global/             # Auto-created
-```
+TuCarpeta/
+├── Cliente/
+│   └── Family Data Base.exe    # Client
+├── Server/
+│   ├── FDB Server.exe          # Server
+│   └── FDB Console.exe         # Admin console
+├── DataClient/                 # Auto-created on first run
+└── DataServer/                 # Auto-created on first run
+    ├── users.json              # Auto-created on first run
+    └── global/                 # Auto-created on first run
 
 > **Note:** `DataClient/` and `DataServer/` are generated automatically the first time you run the executables. You don't need to create them manually.
 
