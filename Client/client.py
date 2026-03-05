@@ -6,7 +6,7 @@ import sys
 
 def get_base_path() -> pathlib.Path:
     if getattr(sys, 'frozen', False):
-        return pathlib.Path(sys.executable).parent
+        return pathlib.Path(sys.executable).parent.parent
     else:
         return pathlib.Path(__file__).parent.parent
 

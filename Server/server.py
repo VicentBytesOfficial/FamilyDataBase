@@ -1,12 +1,11 @@
 import socket
-import os
 import json
 import pathlib
 import sys
 
 def get_base_path() -> pathlib.Path:
     if getattr(sys, 'frozen', False):
-        return pathlib.Path(sys.executable).parent
+        return pathlib.Path(sys.executable).parent.parent
     else:
         return pathlib.Path(__file__).parent.parent
 
@@ -18,6 +17,12 @@ BUFFER_SIZE = 4096
 
 BASE_DIR = get_base_path() / "DataServer"
 USERS_FILE = BASE_DIR / "users.json"
+
+BASE_DIR.mkdir(exist_ok=True)
+(BASE_DIR / "global").mkdir(exist_ok=True)
+
+if not USERS_FILE.exists():
+    USERS_FILE.write_text("[]", encoding="utf-8")
 
 BASE_DIR.mkdir(exist_ok=True)
 (BASE_DIR / "global").mkdir(exist_ok=True)
