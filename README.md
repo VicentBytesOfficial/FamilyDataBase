@@ -5,7 +5,7 @@ A lightweight LAN file transfer system built with Python. Allows multiple users 
 > **Part of the Family Suite** — a collection of LAN tools built with Python.
 > Next project: [FamilyLanChat](https://github.com/VicentBytes) — real-time LAN chat.
 
-[![Release](https://img.shields.io/github/v/release/VicentBytes/FamilyDataBase)](https://github.com/VicentBytes/FamilyDataBase/releases/latest)
+[![Release](https://img.shields.io/github/v/release/VicentBytes/FamilyDataBase)](https://gitlab.com/tv-team/familydatabase/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 
