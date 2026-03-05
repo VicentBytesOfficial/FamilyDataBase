@@ -3,9 +3,9 @@
 A lightweight LAN file transfer system built with Python. Allows multiple users to upload and download files across a local network through a simple graphical interface.
 
 > **Part of the Family Suite** — a collection of LAN tools built with Python.
-> Next project: [FamilyLanChat](https://github.com/VicentBytes) — real-time LAN chat.
+> Next project: [FamilyLanChat](https://gitlab.com/tv-team) — real-time LAN chat.
 
-[![Release](https://img.shields.io/github/v/release/VicentBytes/FamilyDataBase)](https://gitlab.com/tv-team/familydatabase/releases/latest)
+[![Release](https://img.shields.io/gitlab/v/release/tv-team/familydatabase)](https://gitlab.com/tv-team/familydatabase/-/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 
@@ -87,7 +87,7 @@ No external libraries required — only Python's standard library.
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/VicentBytes/FamilyDataBase.git
+git clone https://gitlab.com/tv-team/familydatabase.git
 cd FamilyDataBase
 ```
 
@@ -281,11 +281,9 @@ The output for each will be in the `dist/` folder. Once built, place all executa
 
 ```
 YourFolder/
-├── Client/                 # Client executables folder
-|   └── FamilyDataBase.exe  # Client 
-├── Server/                 # Server executables folder     
-|   ├── FDB Server.exe      # Server
-|   └── FDV Console.exe     # Console Server
+├── Family Data Base.exe    # Client
+├── FDB Server.exe          # Server
+├── FDB Console.exe         # Admin console
 ├── DataClient/             # Auto-created on first client run
 └── DataServer/             # Auto-created on first server run
     ├── users.json          # Auto-created
@@ -319,9 +317,11 @@ YourFolder/
 
 - [ ] **FamilyLanChat** — Real-time LAN chat built on the same TCP foundation
 - [ ] File listing (see what files are in a folder without knowing the filename)
+- [ ] Transfer progress bar with speed indicator (MB/s)
 - [ ] Multiple simultaneous connections (threading)
 - [ ] Encrypted connections (TLS)
 - [ ] Password hashing (bcrypt)
+- [ ] Dark mode UI with CustomTkinter
 - [ ] GitHub Actions to auto-build executables on each release
 
 ---
@@ -333,5 +333,5 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ---
 
 <p align="center">
-  Made with 🐍 by <a href="https://github.com/VicentBytes">VicentBytes</a>
+  Made with 🐍 by <a href="https://gitlab.com/tv-team">VicentBytes</a>
 </p>
