@@ -277,8 +277,8 @@ pyinstaller --onefile --icon=Icons/console.ico --name="FDB Console" Server/conso
 The output for each will be in the `dist/` folder. Once built, place all executables in the same folder for them to work correctly:
 
 ```
-TuCarpeta/
-├── Cliente/
+YourFolder/
+├── Client/
 │   └── Family Data Base.exe    # Client
 ├── Server/
 │   ├── FDB Server.exe          # Server
