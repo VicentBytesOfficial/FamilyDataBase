@@ -287,6 +287,7 @@ YourFolder/
 └── DataServer/                 # Auto-created on first run
     ├── users.json              # Auto-created on first run
     └── global/                 # Auto-created on first run
+```
 
 > **Note:** `DataClient/` and `DataServer/` are generated automatically the first time you run the executables. You don't need to create them manually.
 
