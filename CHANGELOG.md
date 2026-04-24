@@ -1,4 +1,4 @@
-## [v1.2.0] - 2026-04-02
+## [v2.0.0] - 2026-04-02
 
 ### Added
 - **Automatic login** option, allowing users to skip manual credential entry on startup.
