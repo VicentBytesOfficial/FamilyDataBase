@@ -24,17 +24,12 @@ BASE_DIR.mkdir(exist_ok=True)
 if not USERS_FILE.exists():
     USERS_FILE.write_text("[]", encoding="utf-8")
 
-BASE_DIR.mkdir(exist_ok=True)
-(BASE_DIR / "global").mkdir(exist_ok=True)
-
-if not USERS_FILE.exists():
-    USERS_FILE.write_text("[]", encoding="utf-8")
-
 
 def validate_login(username: str, password: str) -> bool:
-    """Checks if the username and password match a user in the JSON file."""
     try:
         users = json.loads(USERS_FILE.read_text(encoding="utf-8"))
+        print(f"[DEBUG] Loaded users: {users}")
+        print(f"[DEBUG] Trying login: '{username}' / '{password}'")
         return any(u.get("username") == username and u.get("password") == password for u in users)
     except (json.JSONDecodeError, OSError) as e:
         print(f"[ERROR] Could not read users file: {e}")
@@ -42,7 +37,6 @@ def validate_login(username: str, password: str) -> bool:
 
 
 def recv_line(conn: socket.socket) -> str:
-    """Receives data byte by byte until newline. Returns decoded string."""
     buffer = b""
     while True:
         chunk = conn.recv(1)
@@ -53,8 +47,6 @@ def recv_line(conn: socket.socket) -> str:
 
 
 def send_file(conn: socket.socket, username: str, filename: str) -> None:
-    """Sends a file from the server to the client."""
-    # Prevent path traversal attacks (e.g. filename = "../../etc/passwd")
     filename = pathlib.Path(filename).name
     filepath = BASE_DIR / username / filename
 
@@ -76,8 +68,6 @@ def send_file(conn: socket.socket, username: str, filename: str) -> None:
 
 
 def receive_file(conn: socket.socket, username: str, filename: str) -> None:
-    """Receives a file from the client and saves it on the server."""
-    # Prevent path traversal attacks
     filename = pathlib.Path(filename).name
     dest_dir = BASE_DIR / username
     dest_dir.mkdir(exist_ok=True)
@@ -110,7 +100,6 @@ def receive_file(conn: socket.socket, username: str, filename: str) -> None:
 
 
 def handle_connection(conn: socket.socket, addr) -> None:
-    """Handles a single client connection."""
     try:
         data = recv_line(conn)
 
@@ -125,17 +114,49 @@ def handle_connection(conn: socket.socket, addr) -> None:
             _, username, password = parts
             response = b"OK\n" if validate_login(username, password) else b"FAIL\n"
             conn.send(response)
-            print(f"[LOGIN] {username} -> {'OK' if response == b'OK\n' else 'FAIL'}")
+            print(f"[LOGIN] {username} -> {'OK' if response == b'OK\\n' else 'FAIL'}")
 
         elif command == "GET" and len(parts) == 3:
             _, username, filename = parts
             if username != "global":
                 (BASE_DIR / username).mkdir(exist_ok=True)
+            if "/" in filename:
+                subfolder, filename = filename.split("/", 1)
+                username = subfolder 
             send_file(conn, username, filename)
 
         elif command == "PUT" and len(parts) == 3:
             _, username, filename = parts
             receive_file(conn, username, filename)
+
+        elif command == "FILES" and len(parts) == 4:
+            _, username, password, _ = parts
+            if not validate_login(username, password):
+                conn.send(b"ERROR;FORBIDDEN\n")
+                print(f"[FILES] Unauthorized attempt for user '{username}'")
+                return
+
+            user_dir = BASE_DIR / username
+            if not user_dir.exists():
+                conn.send(b"FILES;\n")
+                return
+
+            if username == "admin":
+                all_files = []
+                for folder in BASE_DIR.iterdir():
+                    if folder.is_dir():
+                        for f in folder.iterdir():
+                            if f.is_file():
+                                all_files.append(f"{folder.name}/{f.name}")  # ej: "juan/foto.jpg"
+                files_str = ";".join(all_files)
+                conn.send(f"FILES;{files_str}\n".encode())
+                print(f"[FILES] Admin: sent {len(all_files)} file(s)")
+                return
+
+            files = [f.name for f in user_dir.iterdir() if f.is_file()]
+            files_str = ";".join(files)
+            conn.send(f"FILES;{files_str}\n".encode())
+            print(f"[FILES] Sent {len(files)} file(s) to '{username}'")
 
         else:
             conn.send(b"ERROR\n")

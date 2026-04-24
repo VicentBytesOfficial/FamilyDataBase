@@ -5,7 +5,7 @@ A lightweight LAN file transfer system built with Python. Allows multiple users 
 > **Part of the Family Suite** — a collection of LAN tools built with Python.
 > Next project: [FamilyLanChat](https://gitlab.com/tv-team) — real-time LAN chat.
 
-[![Release](https://img.shields.io/badge/release-v1.0.0-blue)](https://gitlab.com/tv-team/familydatabase/-/releases)
+[![Release](https://img.shields.io/badge/release-v2.0.0-blue)](https://gitlab.com/tv-team/familydatabase/-/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 
@@ -33,11 +33,13 @@ A lightweight LAN file transfer system built with Python. Allows multiple users 
 ## ✨ Features
 
 - 📁 Upload and download files over a local network (LAN)
+- 📋 **File listing** — browse available files in a folder directly from the GUI
 - 👤 Multi-user support with username and password authentication
 - 🌐 `global/` shared folder accessible by all users
-- 🖥️ Simple Tkinter GUI for the client
+- 🖥️ Clean CustomTkinter GUI for the client
 - 🛠️ Server console for user management
 - 🔒 Path traversal attack prevention
+- 🔐 Authenticated file listing — credentials required to list files
 - 📦 Can be built as a standalone `.exe` (Windows) or `.app` (macOS) — no Python required
 
 ---
@@ -48,7 +50,7 @@ A lightweight LAN file transfer system built with Python. Allows multiple users 
 FamilyDataBase/
 ├── Client/
 │   ├── client.py       # Handles TCP connections and file transfer logic
-│   └── GUI.py          # Tkinter graphical interface
+│   └── GUI.py          # CustomTkinter graphical interface
 ├── Server/
 │   ├── server.py       # TCP server, handles all client requests
 │   └── console.py      # Admin console for managing users
@@ -69,11 +71,15 @@ FamilyDataBase/
 ## ⚙️ Requirements
 
 - Python 3.10 or higher
-- Tkinter (included with Python on Windows and macOS)
+- `customtkinter` library
 - Both devices must be on the **same local network (LAN)**
 - Port `5000` open on the server machine (not blocked by firewall)
 
-No external libraries required — only Python's standard library.
+**Install the required library:**
+
+```bash
+pip install customtkinter
+```
 
 > **Want to run it without Python?** You can build a standalone `.exe` (Windows) or `.app` (macOS) using PyInstaller. See [Building an Executable](#-building-an-executable).
 
@@ -88,13 +94,17 @@ git clone https://gitlab.com/tv-team/familydatabase.git
 cd FamilyDataBase
 ```
 
-2. **Verify Python is installed:**
+2. **Install dependencies:**
+
+```bash
+pip install customtkinter
+```
+
+3. **Verify Python is installed:**
 
 ```bash
 python --version
 ```
-
-That's it — no pip installs needed.
 
 ---
 
@@ -169,27 +179,27 @@ On any machine in the same network, run:
 python Client/client.py
 ```
 
-**Step 1 — Enter the server's IP:**
-
-Type the local IP address of the server machine (e.g. `192.168.1.10`) and click **Continue**. You can also type `localhost` if you are on the same machine as the server.
-
-**Step 2 — Login:**
+**Step 1 — Login:**
 
 Enter your username and password, then click **Login**.
 
+**Step 2 — Enter the server's IP:**
+
+Type the local IP address of the server machine (e.g. `192.168.1.10`) and click **Connect**. You can also type `localhost` if you are on the same machine as the server.
+
 **Step 3 — Transfer files:**
 
-- **Download (GET):** Enter a username/folder and a filename, then click **Download**.
-- **Upload (PUT):** Enter a username/folder, click **Upload**, and select a file from your computer.
+- **Take File:** Click "Take File" in the sidebar to open the download panel. A dropdown will show all available files in your folder. Select one and click **Download**. Use **Refresh List** to update the file list at any time.
+- **Put File:** Click "Put File" in the sidebar to open the upload panel. Click **Browse File...** to pick a file from your computer, then click **Upload**.
 
 > Files you download are saved to the `DataClient/` folder automatically, located next to the client executable or script.
 
 #### Folder access rules:
 
-| User type | Can access | Can upload to |
+| User type | Can see & download | Can upload to |
 |---|---|---|
 | Regular user | Their own folder + `global/` | Their own folder + `global/` |
-| `admin` | All folders | All folders |
+| `admin` | All folders (shown as `folder/file`) | All folders |
 
 ---
 
@@ -197,7 +207,7 @@ Enter your username and password, then click **Login**.
 
 FamilyDataBase includes a built-in **`admin`** user with elevated privileges:
 
-- Can **download from any user's folder**, not just their own or `global/`
+- Can **see and download files from all user folders** — listed as `username/filename`
 - Can **upload to any user's folder**
 - Is the only user that can bypass folder access restrictions
 
@@ -224,9 +234,26 @@ FamilyDataBase includes a built-in **`admin`** user with elevated privileges:
 | Transfer format | Binary with newline-delimited headers |
 | Auth storage | JSON (`DataServer/users.json`) |
 | Buffer size | 4096 bytes |
-| GUI framework | Tkinter |
+| GUI framework | CustomTkinter |
 | Python version | 3.10+ |
-| External dependencies | None |
+| External dependencies | `customtkinter` |
+
+**Command protocol:**
+
+| Command | Format | Description |
+|---|---|---|
+| `LOGIN` | `LOGIN;username;password` | Authenticate a user |
+| `GET` | `GET;username;filename` | Download a file |
+| `PUT` | `PUT;username;filename` | Upload a file |
+| `FILES` | `FILES;username;password;request` | List available files (requires auth) |
+
+**How file listing works:**
+
+1. Client sends `FILES;username;password;request`
+2. Server validates the credentials before listing
+3. Server responds with `FILES;file1;file2;...` or `FILES;` if empty
+4. If credentials are invalid, server responds with `ERROR;FORBIDDEN`
+5. Admin receives all files across all folders in `folder/filename` format
 
 **How file transfer works:**
 
@@ -242,7 +269,7 @@ FamilyDataBase includes a built-in **`admin`** user with elevated privileges:
 1. Client sends `LOGIN;username;password`
 2. Server looks up the username in `users.json` and compares the password
 3. Server responds with `OK` or `FAIL`
-4. If `OK`, the client UI unlocks the file transfer screen
+4. If `OK`, the client saves the session to `login.json` and unlocks the main screen
 
 ---
 
@@ -289,8 +316,6 @@ YourFolder/
     └── global/                 # Auto-created on first run
 ```
 
-> **Note:** `DataClient/` and `DataServer/` are generated automatically the first time you run the executables. You don't need to create them manually.
-
 | Flag | Description |
 |---|---|
 | `--onefile` | Packages everything into a single executable |
@@ -315,12 +340,10 @@ YourFolder/
 ## 🗺️ Roadmap
 
 - [ ] **FamilyLanChat** — Real-time LAN chat built on the same TCP foundation
-- [ ] File listing (see what files are in a folder without knowing the filename)
 - [ ] Transfer progress bar with speed indicator (MB/s)
 - [ ] Multiple simultaneous connections (threading)
 - [ ] Encrypted connections (TLS)
 - [ ] Password hashing (bcrypt)
-- [ ] Dark mode UI with CustomTkinter
 - [ ] GitHub Actions to auto-build executables on each release
 
 ---
