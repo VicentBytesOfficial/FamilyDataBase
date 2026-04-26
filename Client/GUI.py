@@ -43,11 +43,17 @@ class class_GUI(ctk.CTk):
         self.geometry("700x500")
         self.title("FamilyDataBase - v1.2.0")
 
+        for i in range(10):  
+            self.rowconfigure(i, weight=0)
+        for j in range(10):  
+            self.columnconfigure(j, weight=0)
+
+
         self.columnconfigure(0, weight=0)
         self.columnconfigure(1, weight=1)
         self.columnconfigure(2, weight=1)
         self.rowconfigure(0, weight=1)
-        
+
         def get_files(actual_user):
             result = files(actual_user, ip)
             print(f"[DEBUG] files received: {result}")
