@@ -112,9 +112,11 @@ def handle_connection(conn: socket.socket, addr) -> None:
 
         if command == "LOGIN" and len(parts) == 3:
             _, username, password = parts
+            username = username.strip()
+            password = password.strip()
             response = b"OK\n" if validate_login(username, password) else b"FAIL\n"
             conn.send(response)
-            print(f"[LOGIN] {username} -> {'OK' if response == b'OK\\n' else 'FAIL'}")
+            print(f"[LOGIN] {username} -> {'OK' if response == b'OK\n' else 'FAIL'}")
 
         elif command == "GET" and len(parts) == 3:
             _, username, filename = parts
