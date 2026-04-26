@@ -1,5 +1,8 @@
 # Builds files
 *.exe
+build/
+dist/
+*.spec
 # Icons build files
 *.ico
 # App Caché
