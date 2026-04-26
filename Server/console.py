@@ -5,9 +5,9 @@ import sys
 
 def get_base_path() -> pathlib.Path:
     if getattr(sys, 'frozen', False):
-        return pathlib.Path(sys.executable).parent
+        return pathlib.Path(sys.executable).parent.parent
     else:
-        return pathlib.Path(__file__).parent
+        return pathlib.Path(__file__).parent.parent
 
 print("|----------Server Console----------|")
 
@@ -22,7 +22,6 @@ if not USERS_FILE.exists():
 
 
 def load_users() -> list:
-    """Loads and returns the users list from the JSON file."""
     try:
         return json.loads(USERS_FILE.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError) as e:
@@ -31,12 +30,10 @@ def load_users() -> list:
 
 
 def save_users(users: list) -> None:
-    """Saves the users list to the JSON file."""
     USERS_FILE.write_text(json.dumps(users, indent=4, ensure_ascii=False), encoding="utf-8")
 
 
 def list_users() -> None:
-    """Lists all registered users."""
     users = load_users()
     if not users:
         print("No users registered.")
@@ -47,7 +44,6 @@ def list_users() -> None:
 
 
 def add_user(username: str, password: str) -> None:
-    """Adds a new user. Prevents duplicates."""
     username = username.strip()
     users = load_users()
 
@@ -58,13 +54,11 @@ def add_user(username: str, password: str) -> None:
     users.append({"username": username, "password": password})
     save_users(users)
 
-    # Create user folder
     (BASE_DIR / username).mkdir(exist_ok=True)
     print(f"[OK] User '{username}' added successfully.")
 
 
 def remove_user(username: str) -> bool:
-    """Removes a user and their folder from the server."""
     username = username.strip()
     users = load_users()
 
@@ -87,7 +81,6 @@ def remove_user(username: str) -> bool:
 
 
 def change_password(username: str, new_password: str) -> None:
-    """Changes the password of an existing user."""
     username = username.strip()
     users = load_users()
 
