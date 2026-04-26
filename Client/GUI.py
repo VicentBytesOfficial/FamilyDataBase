@@ -47,18 +47,12 @@ class class_GUI(ctk.CTk):
         self.columnconfigure(1, weight=1)
         self.columnconfigure(2, weight=1)
         self.rowconfigure(0, weight=1)
-
-        # ------------------------------------------------------------------ #
-        # Helpers                                                              #
-        # ------------------------------------------------------------------ #
+        
         def get_files(actual_user):
             result = files(actual_user, ip)
             print(f"[DEBUG] files received: {result}")
             return result if result else ["No Files Available"]
 
-        # ------------------------------------------------------------------ #
-        # Panel: Take File                                                     #
-        # ------------------------------------------------------------------ #
         def take_panel(frame, actual_user):
             clean_window(frame)
 
@@ -66,7 +60,6 @@ class class_GUI(ctk.CTk):
                                  font=ctk.CTkFont(size=16, weight="bold"))
             title.pack(pady=(20, 5), padx=10)
 
-            # ComboBox con los archivos disponibles
             file_list = get_files(actual_user)
             file_box = ctk.CTkComboBox(frame, values=file_list, width=280)
             file_box.pack(pady=10, padx=10)
@@ -76,13 +69,11 @@ class class_GUI(ctk.CTk):
                 if not selected or selected == "No Files Available":
                     messagebox.showwarning("Family Data Base", "Please select a valid file.")
                     return
-                # Llama a la función take que viene de client.py (send_file_request)
                 take(actual_user, selected, ip)
 
             download_btn = ctk.CTkButton(frame, text="Download", command=do_take)
             download_btn.pack(pady=10, padx=10)
 
-            # Botón para refrescar la lista
             def refresh():
                 new_list = get_files(actual_user)
                 file_box.configure(values=new_list)
@@ -93,9 +84,6 @@ class class_GUI(ctk.CTk):
                                         command=refresh)
             refresh_btn.pack(pady=5, padx=10)
 
-        # ------------------------------------------------------------------ #
-        # Panel: Put File                                                      #
-        # ------------------------------------------------------------------ #
         def put_panel(frame, actual_user):
             clean_window(frame)
 
@@ -103,7 +91,6 @@ class class_GUI(ctk.CTk):
                                  font=ctk.CTkFont(size=16, weight="bold"))
             title.pack(pady=(20, 5), padx=10)
 
-            # Muestra la ruta del archivo seleccionado
             path_var = ctk.StringVar(value="No file selected")
             path_label = ctk.CTkLabel(frame, textvariable=path_var,
                                       wraplength=300, justify="center")
@@ -124,15 +111,11 @@ class class_GUI(ctk.CTk):
                 if not selected_path["value"]:
                     messagebox.showwarning("Family Data Base", "Please select a file first.")
                     return
-                # Llama a la función upload que viene de client.py (upload_file)
                 upload(actual_user, selected_path["value"], ip)
 
             upload_btn = ctk.CTkButton(frame, text="Upload", command=do_upload)
             upload_btn.pack(pady=10, padx=10)
 
-        # ------------------------------------------------------------------ #
-        # Layout principal                                                     #
-        # ------------------------------------------------------------------ #
         self.sideframe = ctk.CTkFrame(self, fg_color="#0d003a")
         self.sideframe.grid(column=0, row=0, sticky="nsew")
 
