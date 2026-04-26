@@ -135,17 +135,17 @@ def login(ip, usuario, password, gui):
         print(repr(respuesta))  
         respuesta = respuesta.decode().strip()
         client_socket.close()
-        if respuesta == "OK":
-            with open("Client/login.json", "w") as f:
+        if respuesta.strip().upper() == "OK":
+            with open(os.path.join(BASE_DIR / "login.json"), "w") as f:
                 json.dump({"ip": ip, "user": usuario, "password": password}, f)
 
             gui.start3(
                 ip,
                 usuario,
                 log_out,
-                lambda u, fp, i: upload_file(u, fp, i),       # Put File
-                lambda u, f, i: send_file_request(u, f, i),   # Take File
-                lambda u, i: availables_files(u, i, password) # Files list
+                lambda u, fp, i: upload_file(u, fp, i),       
+                lambda u, f, i: send_file_request(u, f, i), 
+                lambda u, i: availables_files(u, i, password) 
             )
         else:
             GUI.error("User/Password")
@@ -161,8 +161,9 @@ def login(ip, usuario, password, gui):
         gui.start1(lambda ip, u, p: login(ip, u, p, gui))
 
 def log_out(gui):
-    if os.path.exists("Client/login.json"):
-        os.remove("Client/login.json")
+    login_file = BASE_DIR / "login.json"
+    if login_file.exists():
+        login_file.unlink()
     gui.start1(lambda ip, u, p: login(ip, u, p, gui))
         
 if __name__ == "__main__":
