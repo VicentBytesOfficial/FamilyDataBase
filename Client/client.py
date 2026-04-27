@@ -117,6 +117,31 @@ def availables_files(user, ip="127.0.0.1", password=""):
         print("Error in availables_files:", e)
         return []
     
+def availables_users(user, ip="127.0.0.1", password=""):
+    try:
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect((ip, PORT))
+        client_socket.send(f"USERS;{user};{password};request\n".encode())
+
+        response = b""
+        while not response.endswith(b"\n"):
+            chunk = client_socket.recv(1)
+            if not chunk:
+                break
+            response += chunk
+
+        response = response.decode().strip()
+        client_socket.close()
+        
+        partes = response.split(";")
+        if partes[0] == "USERS":
+            result = [f for f in partes[1:] if f] 
+            return result
+        return []
+    except Exception as e:
+        print("Error in availables_users:", e)
+        return []
+
 def login(ip, usuario, password, gui):
     if ip == "localhost":
         ip = "127.0.0.1"
@@ -145,7 +170,8 @@ def login(ip, usuario, password, gui):
                 log_out,
                 lambda u, fp, i: upload_file(u, fp, i),       
                 lambda u, f, i: send_file_request(u, f, i), 
-                lambda u, i: availables_files(u, i, password) 
+                lambda u, i: availables_files(u, i, password),
+                lambda u, i: availables_users(u, i, password)
             )
         else:
             GUI.error("User/Password")
@@ -168,7 +194,7 @@ def log_out(gui):
         
 if __name__ == "__main__":
     gui = GUI.class_GUI()
-    login_file = pathlib.Path("Client\\login.json")
+    login_file = BASE_DIR / "login.json"
 
     file = None
     if login_file.exists():

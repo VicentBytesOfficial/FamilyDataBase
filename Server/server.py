@@ -149,7 +149,7 @@ def handle_connection(conn: socket.socket, addr) -> None:
                     if folder.is_dir():
                         for f in folder.iterdir():
                             if f.is_file():
-                                all_files.append(f"{folder.name}/{f.name}")  # ej: "juan/foto.jpg"
+                                all_files.append(f"{folder.name}/{f.name}") 
                 files_str = ";".join(all_files)
                 conn.send(f"FILES;{files_str}\n".encode())
                 print(f"[FILES] Admin: sent {len(all_files)} file(s)")
@@ -159,6 +159,30 @@ def handle_connection(conn: socket.socket, addr) -> None:
             files_str = ";".join(files)
             conn.send(f"FILES;{files_str}\n".encode())
             print(f"[FILES] Sent {len(files)} file(s) to '{username}'")
+
+        elif command == "USERS" and len(parts) == 4:
+            _, user, password, _ = parts
+            
+            if not validate_login(user, password):
+                conn.send(b"ERROR;FORBIDDEN\n")
+                print(f"[USERS] Unauthorized attempt for user '{user}'")
+                return
+            
+            users_data = json.loads(USERS_FILE.read_text(encoding="utf-8"))
+            user_list = [x["username"] for x in users_data]
+            
+            if "global" not in user_list:
+                user_list.append("global")
+            
+            if user == "admin":
+                to_send_str = ";".join(user_list)
+                conn.send(f"USERS;{to_send_str}\n".encode())
+                print(f"[USERS] Admin: sent {len(user_list)} user(s): {user_list}")
+            else:
+                to_send_filtered = [user, "global"]
+                to_send_str = ";".join(to_send_filtered)
+                conn.send(f"USERS;{to_send_str}\n".encode())
+                print(f"[USERS] Regular user '{user}': sent {len(to_send_filtered)} user(s): {to_send_filtered}")
 
         else:
             conn.send(b"ERROR\n")

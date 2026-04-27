@@ -190,7 +190,7 @@ Type the local IP address of the server machine (e.g. `192.168.1.10`) and click 
 **Step 3 — Transfer files:**
 
 - **Take File:** Click "Take File" in the sidebar to open the download panel. A dropdown will show all available files in your folder. Select one and click **Download**. Use **Refresh List** to update the file list at any time.
-- **Put File:** Click "Put File" in the sidebar to open the upload panel. Click **Browse File...** to pick a file from your computer, then click **Upload**.
+- **Put File:** Click "Put File" in the sidebar to open the upload panel. Click **Browse File...** to pick a file from your computer, next select the user, then click **Upload**.
 
 > Files you download are saved to the `DataClient/` folder automatically, located next to the client executable or script.
 
@@ -246,6 +246,7 @@ FamilyDataBase includes a built-in **`admin`** user with elevated privileges:
 | `GET` | `GET;username;filename` | Download a file |
 | `PUT` | `PUT;username;filename` | Upload a file |
 | `FILES` | `FILES;username;password;request` | List available files (requires auth) |
+| `USERS` | `USERS;username;password;request` | List availables users (requires auth)
 
 **How file listing works:**
 

@@ -38,7 +38,7 @@ class class_GUI(ctk.CTk):
         self.destroy()
         exit()
 
-    def start3(self, ip, user, function_of_log_out, upload, take, files):
+    def start3(self, ip, user, _log_out_, _upload_, _take_, _files_, _users_):
         clean_window(self)
         self.geometry("700x500")
         self.title("FamilyDataBase - v1.2.0")
@@ -55,15 +55,21 @@ class class_GUI(ctk.CTk):
         self.rowconfigure(0, weight=1)
 
         def get_files(actual_user):
-            result = files(actual_user, ip)
+            result = _files_(actual_user, ip)
             print(f"[DEBUG] files received: {result}")
             return result if result else ["No Files Available"]
+        
+        def get_users(actual_user):
+            result = _users_(actual_user, ip)
+            print(f"[DEBUG] users received: {result}")
+            return result if result else ["No Users Availables"]
 
         def take_panel(frame, actual_user):
             clean_window(frame)
 
             title = ctk.CTkLabel(frame, text="Take File from Server",
-                                 font=ctk.CTkFont(size=16, weight="bold"))
+                font=ctk.CTkFont(size=16, weight="bold")
+                )
             title.pack(pady=(20, 5), padx=10)
 
             file_list = get_files(actual_user)
@@ -75,7 +81,7 @@ class class_GUI(ctk.CTk):
                 if not selected or selected == "No Files Available":
                     messagebox.showwarning("Family Data Base", "Please select a valid file.")
                     return
-                take(actual_user, selected, ip)
+                _take_(actual_user, selected, ip)
 
             download_btn = ctk.CTkButton(frame, text="Download", command=do_take)
             download_btn.pack(pady=10, padx=10)
@@ -86,8 +92,8 @@ class class_GUI(ctk.CTk):
                 file_box.set(new_list[0])
 
             refresh_btn = ctk.CTkButton(frame, text="Refresh List",
-                                        fg_color="#1f538d", hover_color="#14375e",
-                                        command=refresh)
+                fg_color="#1f538d", hover_color="#14375e",
+                command=refresh)
             refresh_btn.pack(pady=5, padx=10)
 
         def put_panel(frame, actual_user):
@@ -99,10 +105,24 @@ class class_GUI(ctk.CTk):
 
             path_var = ctk.StringVar(value="No file selected")
             path_label = ctk.CTkLabel(frame, textvariable=path_var,
-                                      wraplength=300, justify="center")
+                wraplength=300, justify="center"
+                )
             path_label.pack(pady=5, padx=10)
 
             selected_path = {"value": None}
+
+            user_list = get_users(actual_user)
+            user_box = ctk.CTkComboBox(frame, values=user_list, width=280)
+            user_box.pack(padx = 10, pady = 10)
+            user_box.set(user_list[0] if user_list else "")
+
+            def refresh():
+                new_list = get_users(actual_user) 
+                user_box.configure(values=new_list)
+                user_box.set(new_list[0] if new_list else "")
+
+            refresh_btn = ctk.CTkButton(frame, text="Refresh Users", command=refresh)
+            refresh_btn.pack(pady=10,padx=10)
 
             def browse():
                 filepath = filedialog.askopenfilename(title="Select a file")
@@ -117,7 +137,13 @@ class class_GUI(ctk.CTk):
                 if not selected_path["value"]:
                     messagebox.showwarning("Family Data Base", "Please select a file first.")
                     return
-                upload(actual_user, selected_path["value"], ip)
+                
+                selected_user = user_box.get()
+                if not selected_user or selected_user == "No Users Availables":
+                    messagebox.showwarning("Family Data Base", "Please select a valid user.")
+                    return
+                
+                _upload_(selected_user, selected_path["value"], ip)
 
             upload_btn = ctk.CTkButton(frame, text="Upload", command=do_upload)
             upload_btn.pack(pady=10, padx=10)
@@ -129,28 +155,33 @@ class class_GUI(ctk.CTk):
         self.mainframe.grid(column=1, row=0, columnspan=2, sticky="nsew", padx=10, pady=10)
 
         put_button = ctk.CTkButton(self.sideframe, text="Put File",
-                                   command=lambda: put_panel(self.mainframe, user))
+            command=lambda: put_panel(self.mainframe, user)
+            )
         put_button.pack(pady=10, padx=10)
 
         take_button = ctk.CTkButton(self.sideframe, text="Take File",
-                                    command=lambda: take_panel(self.mainframe, user))
+            command=lambda: take_panel(self.mainframe, user)
+            )
         take_button.pack(pady=10, padx=10)
 
         log_out_button = ctk.CTkButton(self.sideframe, text="Log Out",
-                                       command=lambda: function_of_log_out(self),
-                                       fg_color="#991d1d",
-                                       text_color="#000000",
-                                       hover_color="#4B1313")
+            command=lambda: _log_out_(self),
+            fg_color="#991d1d",
+            text_color="#000000",
+            hover_color="#4B1313"
+            )
         log_out_button.pack(pady=10, padx=10, side="bottom")
 
         visible_ip = "localhost" if ip == "127.0.0.1" else ip
 
         user_label = ctk.CTkLabel(self.sideframe, text=f"Server IP: {visible_ip}",
-                                  font=ctk.CTkFont(size=15, weight="bold"))
+            font=ctk.CTkFont(size=15, weight="bold")
+            )
         user_label.pack(pady=5, padx=10, side="bottom")
 
         ip_label = ctk.CTkLabel(self.sideframe, text=f"Actual User: {user}",
-                                font=ctk.CTkFont(size=15, weight="bold"))
+            font=ctk.CTkFont(size=15, weight="bold")
+            )
         ip_label.pack(pady=5, padx=10, side="bottom")
 
 

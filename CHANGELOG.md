@@ -1,19 +1,14 @@
-## [v2.0.0] - 2026-04-02
+## [v2.0.1] - 2026-04-02
 
 ### Added
-- **Automatic login** option, allowing users to skip manual credential entry on startup.
-- **File autocompletion** in `CTkEntry` fields, enabling users to browse and select available files directly from the input.
-- New `FILES` key in the client-server communication protocol for file-related operations.
+- **Option to choose where to put the file** to be able to put your files in global/ and that everyone can access.
 
 ### Changed
-- **Migrated the entire GUI** from `tkinter` to `customtkinter`, delivering a modern and visually consistent interface.
+- **We fixed the annoying bug that does not include global in the list of available files** so you can access all the files that others put there.
 
 ### Technical
-- The client-server communication protocol uses a `;`-separated message structure: `content_type;content;more_content;etc`. The `FILES` key has been added to the existing `GET`, `PUT`, and `LOGIN` keys. A `FILES` response follows the format `FILES;file1;file2;...`. Both server and client components have been updated accordingly.
+- we added a new protocol with the `USERS` key, which allows us to list the available users to be able to put a file.
+- We fixed the error that the `GUI.py` windows were bugged when we logged in
 
 ### Breaking Changes
-- **Protocol update required:** The addition of the `FILES` key means older clients are not compatible with the updated server and vice versa. Both sides must be updated to `v1.2.0` simultaneously.
-- **New dependency:** `customtkinter` is now required. Install it with:
-```
-  pip install customtkinter
-```
+- **Protocol update required:** Now with the new `USERS` protocol it is necessary for both client and server to be updated
