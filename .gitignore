@@ -10,3 +10,6 @@ Client/__pycache__/
 Server/__pycache__/
 # Logins Caché
 Client/login.json
+# Experimentals Pipelines
+*.gitlab-ci.yaml
+Pipelines/
