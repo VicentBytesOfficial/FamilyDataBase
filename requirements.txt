@@ -1,0 +1,11 @@
+bottle==0.13.4
+customtkinter==5.2.2
+darkdetect==0.8.0
+dotenv==0.9.9
+packaging==26.2
+proxy_tools==0.1.0
+pycairo==1.29.0
+PyGObject==3.56.2
+python-dotenv==1.2.2
+pywebview==6.2.1
+typing_extensions==4.15.0

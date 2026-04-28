@@ -1,0 +1,7 @@
+# Builds files
+*.exe
+# Icons build files
+*.ico
+# App Caché
+__pycache__/
+.env
