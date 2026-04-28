@@ -116,7 +116,9 @@ def handle_connection(conn: socket.socket, addr) -> None:
             password = password.strip()
             response = b"OK\n" if validate_login(username, password) else b"FAIL\n"
             conn.send(response)
-            print(f"[LOGIN] {username} -> {'OK' if response == b'OK\n' else 'FAIL'}")
+            resp_str = response.decode().strip()
+            print(f"[LOGIN] {username} -> {'OK' if resp_str == 'OK' else 'FAIL'}")
+
 
         elif command == "GET" and len(parts) == 3:
             _, username, filename = parts
