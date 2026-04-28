@@ -8,10 +8,10 @@ build:
     - pip install pillow pyinstaller
     - python Pipelines/convert-icon.py
     - pyinstaller --windowed --onefile --name "FamilyDataBase" --icon client.ico Client/client.py
-    - pyinstaller --onefile --name "FDB Server" --icon server.ico Server/server.py
-    - pyinstaller --onefile --name "FDB Console" --icon console.ico Server/console.py
+    - pyinstaller --onefile --name "FDB_Server" --icon server.ico Server/server.py
+    - pyinstaller --onefile --name "FDB_Console" --icon console.ico Server/console.py
   artifacts:
     paths:
       - dist/FamilyDataBase.exe
-      - dist/FDB Console.exe
-      - dist/FDB Server.exe
+      - dist/FDB_Console.exe
+      - dist/FDB_Server.exe
