@@ -1,14 +1,13 @@
-## [v2.0.1] - 2026-04-02
+## [v2.0.2] - 2026-04-28
 
 ### Added
-- **Option to choose where to put the file** to be able to put your files in global/ and that everyone can access.
+- **Automatic build** Now you can download the .exe directly from Pipelines Jobs
 
 ### Changed
-- **We fixed the annoying bug that does not include global in the list of available files** so you can access all the files that others put there.
+- **We fixed the DataClient bug** Now downloaded files are placed directly in ./DataClient/
 
 ### Technical
-- we added a new protocol with the `USERS` key, which allows us to list the available users to be able to put a file.
-- We fixed the error that the `GUI.py` windows were bugged when we logged in
+- We create convert-icon.py, which is responsible for creating the .ico for the .exe, in colaboration of .gitlab-ci.yml
 
 ### Breaking Changes
-- **Protocol update required:** Now with the new `USERS` protocol it is necessary for both client and server to be updated
+No breaking changes

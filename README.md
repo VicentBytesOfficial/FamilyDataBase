@@ -5,7 +5,7 @@ A lightweight LAN file transfer system built with Python. Allows multiple users 
 > **Part of the Family Suite** — a collection of LAN tools built with Python.
 > Next project: [FamilyLanChat](https://gitlab.com/tv-team) — real-time LAN chat.
 
-[![Release](https://img.shields.io/badge/release-v2.0.0-blue)](https://gitlab.com/tv-team/familydatabase/-/releases)
+[![Release](https://img.shields.io/badge/release-v2.0.2-blue)](https://gitlab.com/tv-team/familydatabase/-/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 
@@ -276,7 +276,23 @@ FamilyDataBase includes a built-in **`admin`** user with elevated privileges:
 
 ## 📦 Building an Executable
 
-FamilyDataBase can be converted into standalone executables (`.exe` on Windows, `.app` on macOS) using [PyInstaller](https://pyinstaller.org/). No Python installation required on the target machine.
+FamilyDataBase executables (`.exe` on Windows, `.app` on macOS is not still availables) are **automatically generated in GitLab CI/CD Pipeline jobs** with each release. No manual building required!
+
+### 🚀 Automated Builds
+
+Executables are built automatically by GitLab Pipelines and available as **artifacts** on each release. Simply visit the [Releases page](https://gitlab.com/tv-team/familydatabase/-/releases) to download:
+
+- `Family Data Base.exe` — Client executable
+- `FDB Server.exe` — Server executable
+- `FDB Console.exe` — Admin console executable
+
+No Python installation required on the target machine.
+
+---
+
+### 🛠️ Building Locally (Optional)
+
+If you need to build locally, FamilyDataBase uses [PyInstaller](https://pyinstaller.org/) to create standalone executables.
 
 **Install PyInstaller:**
 
@@ -345,7 +361,6 @@ YourFolder/
 - [ ] Multiple simultaneous connections (threading)
 - [ ] Encrypted connections (TLS)
 - [ ] Password hashing (bcrypt)
-- [ ] GitHub Actions to auto-build executables on each release
 
 ---
 

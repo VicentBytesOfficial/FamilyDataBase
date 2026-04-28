@@ -1,0 +1,17 @@
+stages:
+  - build
+
+build:
+  stage: build
+  image: python:3.11
+  script:
+    - pip install pillow pyinstaller
+    - python Pipelines/convert-icon.py
+    - pyinstaller --windowed --onefile --name "FamilyDataBase" --icon client.ico Client/client.py
+    - pyinstaller --onefile --name "FDB Server" --icon server.ico Client/server.py
+    - pyinstaller --onefile --name "FDB Console" --icon console.ico Client/console.py
+  artifacts:
+    paths:
+      - dist/FamilyDataBase.exe
+      - dist/FDB Console.exe
+      - dist/FDB Server.exe

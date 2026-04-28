@@ -7,14 +7,14 @@ import json
 
 def get_base_path() -> pathlib.Path:
     if getattr(sys, 'frozen', False):
-        return pathlib.Path(sys.executable).parent
+        return pathlib.Path(sys.executable).parent.parent
     else:
-        return pathlib.Path(__file__).parent
+        return pathlib.Path(__file__).parent.parent
 
 
 PORT = 5000
 BASE_DIR = get_base_path() 
-DATA_CLIENT = pathlib.Path.home() / "FamilyDataBaseClient"
+DATA_CLIENT = pathlib.Path.home() / "DataClient"
 DATA_CLIENT.mkdir(exist_ok=True)
 
 def send_file_request(user, file, ip="127.0.0.1"):
