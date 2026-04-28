@@ -3,13 +3,19 @@ stages:
 
 build:
   stage: build
-  image: python:3.11
+  image: debian:bookworm
+  before_script:
+    - apt-get update
+    - apt-get install -y wine wget unzip python3-pip
+    - wget https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe -O python-installer.exe
+    - wine python-installer.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
+    - wine python --version
+    - wine python -m pip install pillow pyinstaller
   script:
-    - pip install pillow pyinstaller
-    - python Pipelines/convert-icon.py
-    - pyinstaller --windowed --onefile --name "FamilyDataBase" --icon client.ico Client/client.py
-    - pyinstaller --onefile --name "FDB_Server" --icon server.ico Server/server.py
-    - pyinstaller --onefile --name "FDB_Console" --icon console.ico Server/console.py
+    - python3 Pipelines/convert-icon.py
+    - wine pyinstaller --windowed --onefile --name "FamilyDataBase" --icon client.ico Client/client.py
+    - wine pyinstaller --onefile --name "FDB_Server" --icon server.ico Server/server.py
+    - wine pyinstaller --onefile --name "FDB_Console" --icon console.ico Server/console.py
   artifacts:
     paths:
       - dist/FamilyDataBase.exe
