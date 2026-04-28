@@ -6,12 +6,16 @@ build:
   image: debian:bookworm
   before_script:
     - apt-get update
-    - apt-get install -y mingw-w64 python3-pip
-    - pip install pyinstaller
+    - apt-get install -y python3 python3-venv python3-pip mingw-w64
+    - python3 -m venv venv
+    - source venv/bin/activate
+    - pip install pyinstaller pillow
   script:
-    - pyinstaller --onefile --name "FamilyDataBase" Client/client.py
-    - pyinstaller --onefile --name "FDB_Server" Server/server.py
-    - pyinstaller --onefile --name "FDB_Console" Server/console.py
+    - python Pipelines/convert-icon.py
+    - pyinstaller --windowed --onefile --name "FamilyDataBase" --icon client.ico Client/client.py
+    - pyinstaller --onefile --name "FDB_Server" --icon server.ico Server/server.py
+    - pyinstaller --onefile --name "FDB_Console" --icon console.ico Server/console.py
   artifacts:
     paths:
       - dist/*.exe
+
