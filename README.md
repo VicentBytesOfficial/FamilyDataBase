@@ -276,22 +276,6 @@ FamilyDataBase includes a built-in **`admin`** user with elevated privileges:
 
 ## 📦 Building an Executable
 
-FamilyDataBase executables (`.exe` on Windows, `.app` on macOS is not still availables) are **automatically generated in GitLab CI/CD Pipeline jobs** with each release. No manual building required!
-
-### 🚀 Automated Builds
-
-Executables are built automatically by GitLab Pipelines and available as **artifacts** on each release. Simply visit the [Releases page](https://gitlab.com/tv-team/familydatabase/-/releases) to download:
-
-- `Family Data Base.exe` — Client executable
-- `FDB Server.exe` — Server executable
-- `FDB Console.exe` — Admin console executable
-
-No Python installation required on the target machine.
-
----
-
-### 🛠️ Building Locally (Optional)
-
 If you need to build locally, FamilyDataBase uses [PyInstaller](https://pyinstaller.org/) to create standalone executables.
 
 **Install PyInstaller:**
