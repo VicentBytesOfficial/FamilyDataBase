@@ -3,9 +3,8 @@
 A lightweight LAN file transfer system built with Python. Allows multiple users to upload and download files across a local network through a simple graphical interface.
 
 > **Part of the Family Suite** — a collection of LAN tools built with Python.
-> Next project: [FamilyLanChat](https://gitlab.com/tv-team) — real-time LAN chat.
 
-[![Release](https://img.shields.io/badge/release-v2.0.2-blue)](https://gitlab.com/tv-team/familydatabase/-/releases)
+[![Release](https://img.shields.io/badge/release-v2.0.2-blue)](https://gitub.com/vicentbytesofficial/familydatabase/-/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 
@@ -90,7 +89,7 @@ pip install customtkinter
 1. **Clone the repository:**
 
 ```bash
-git clone https://gitlab.com/tv-team/familydatabase.git
+git clone https://gitlab.com/vicentbytesofficial/familydatabase
 cd FamilyDataBase
 ```
 
@@ -355,5 +354,5 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ---
 
 <p align="center">
-  Made with 🐍 by <a href="https://gitlab.com/tv-team">VicentBytes</a>
+  Made with 🐍 by <a href="https://github.com/vicentbytesofficial">VicentBytes</a>
 </p>

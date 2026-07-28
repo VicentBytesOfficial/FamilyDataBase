@@ -1,13 +1,14 @@
 ## [v2.0.2] - 2026-04-28
 
 ### Added
-- **Automatic build** Now you can download the .exe directly from Pipelines Jobs
+Nothing added
 
 ### Changed
-- **We fixed the DataClient bug** Now downloaded files are placed directly in ./DataClient/
+- Migrated repository hosting from GitLab to GitHub
+- Fixed GitLab → GitHub links in [README.md](README.md)
 
 ### Technical
-- We create convert-icon.py, which is responsible for creating the .ico for the .exe, in colaboration of .gitlab-ci.yml
+No technical changes
 
-### Breaking Changes
-No breaking changes
+### Deprecated
+- The GitLab repository is now outdated and no longer maintained

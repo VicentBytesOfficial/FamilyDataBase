@@ -100,7 +100,7 @@ class class_GUI(ctk.CTk):
             clean_window(frame)
 
             title = ctk.CTkLabel(frame, text="Put File to Server",
-                                 font=ctk.CTkFont(size=16, weight="bold"))
+                font=ctk.CTkFont(size=16, weight="bold"))
             title.pack(pady=(20, 5), padx=10)
 
             path_var = ctk.StringVar(value="No file selected")
